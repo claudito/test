@@ -1,14 +1,18 @@
 <?php
 
-include('../../../autoload.php');
+include '../../../autoload.php';
+include '../../../session.php';
 $cencosot = new Cencosot();
+
+$estado   = (!isset($_SESSION['estadoot'])) ? "'',''" : $_SESSION['estadoot'];
+
+
 ?>
 
-
-<?php if (count($cencosot->lista())>0): ?>
+<?php if (count($cencosot->lista($_SESSION['fechainicionot'],$_SESSION['fechafinot'],$estado))>0): ?>
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">Listas de Ordenes de Trabajo / Fabricación Activas</h3>
+    <h3 class="panel-title">Listas de Ordenes de Trabajo / Fabricación </h3>
   </div>
   <div class="panel-body">
     <div class="table-responsive">
@@ -23,20 +27,21 @@ $cencosot = new Cencosot();
       <th>CANT</th>
       <th>CANT NI</th>
       <th>CANT P</th>
-      <th>ESTADO</th>
       <th>FECHA DE INICIO</th>
       <th>FECHA DE FIN</th>
+      <th>FECHA INGRESO</th>
+      <th>ESTADO</th>
       <th style="text-align: center;">ACCIONES</th>
     </tr>
   </thead>
   <tbody>
   <?php 
      
-  foreach ($cencosot->lista() as $key => $value) 
+  foreach ($cencosot->lista($_SESSION['fechainicionot'],$_SESSION['fechafinot'],$estado) as $key => $value) 
   {
   ?>
   <tr>
-  <td><?php echo utf8_encode($value['CODIGOOT']); ?></td>
+  <td><?php echo utf8_encode($value['OF_COD']); ?></td>
   <td><?php echo utf8_encode($value['CODIGOCENTROCOSTO']); ?></td>
   <td><?php echo utf8_encode($value['CODIGO']); ?></td>
   <td><?php echo utf8_encode($value['ADESCRI']); ?></td>
@@ -44,11 +49,12 @@ $cencosot = new Cencosot();
   <td><?php echo round($value['CANT'],2); ?></td>
   <td><?php echo round($value['CANT_NI'],2); ?></td>
   <td><?php echo round($value['CANT_P'],2); ?></td>
-  <td><?php echo  ($value['CANT']-$value['CANT-P']==0) ? "LIQUIDADO" : "PENDIENTE" ; ?></td>
   <td><?php echo date_format(date_create($value['OF_FECHINI']), 'd/m/Y');?></td>
   <td><?php echo date_format(date_create($value['OF_FECHFIN']), 'd/m/Y');?></td>
+  <td><?php echo date_format(date_create($value['FECHA_NI']), 'd/m/Y');?></td>
+  <td><?php echo utf8_encode($value['OF_ESTADO']); ?></td>
   <td  style="text-align: center;">
-  <a data-ot="<?php echo $value['CODIGOOT'];?>" class="btn btn-edit btn-sm btn-info"><i class="glyphicon glyphicon-edit"></i></a>
+  <a data-ot="<?php echo $value['OF_COD'];?>" class="btn btn-edit btn-sm btn-info"><i class="glyphicon glyphicon-edit"></i></a>
 
   </td>
 </tr>

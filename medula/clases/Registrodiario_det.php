@@ -163,6 +163,35 @@ while ($fila= mssql_fetch_assoc($result))
 
 }
 
+
+
+function ultimo_registro($campo)
+{
+  
+$conexion = new Conexion();
+$conexion->sqlserver();
+$query   =  "
+SELECT TOP 1 D.HORA_INICIO,D.HORA_FIN
+FROM ".BD.".DBO.REGISTRO_DIARIO_DET AS D
+LEFT JOIN ".BD.".DBO.TURNO AS T ON D.ID_TURNO=T.ID
+LEFT JOIN ".BD.".DBO.CLASIFICACION AS C ON D.ID_CLASIFICACION=C.ID
+LEFT JOIN ".BD.".DBO.PROCESOS AS P ON D.ID_PROCESOS=P.ID
+LEFT JOIN ".BD.".DBO.MAQUINA AS M ON D.ID_MAQUINA=M.ID
+INNER JOIN ".BD.".DBO.REGISTRO_DIARIO_CAB AS CA  ON  
+ D.FECHA_PRODUCCION=CA.FECHA_PRODUCCION
+AND D.ID_TURNO=CA.ID_TURNO AND D.ID_USUARIO=CA.ID_USUARIO
+WHERE D.ID_USUARIO='".$_SESSION[KEY.USUARIO]."' AND D.TIPO=1 
+ORDER BY HORA_INICIO DESC
+ ";
+$result  = mssql_query($query);
+$dato    = mssql_fetch_array($result);
+return $dato[$campo];
+
+}
+
+
+
+
 function lista_actualizar($id)
 {
   

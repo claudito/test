@@ -6,14 +6,16 @@ include '../../session.php';
 $ot      =  addslashes(trim($_POST['ot']));
 $subot   =  $_POST['subot'];
 $ni      =  $_POST['ni'];
+$item    =  $_POST['item'];
 $os      =  addslashes(trim($_POST['os']));
 
 foreach ($subot as $key => $valuesubot) 
 {
-    $valueni  = $ni[$key];
+    $valueni    = $ni[$key];
+    $valueitem  = $item[$key];
    
     $servicios  = new Servicios();
-    $valor      = $servicios->agregar($ot,$valuesubot,$valueni,$os);
+    $valor      = $servicios->agregar($valueitem,$ot,$valuesubot,$valueni,$os);
     if ($valor == 'actualizado')  
 	{
 	echo '<script>

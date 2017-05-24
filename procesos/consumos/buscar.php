@@ -12,5 +12,4 @@ $_SESSION['fechainicio_consumo'] = $fechainicio;
 $_SESSION['fechafin_consumo']    = $fechafin;
 
 
-
  ?>

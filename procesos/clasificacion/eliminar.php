@@ -1,8 +1,11 @@
 <?php
 
-include('../../autoload.php');          
+include('../../autoload.php');
+include '../../session.php';          
 
-$id              = addslashes(trim($_POST['id']));
+$funciones = new Funciones();
+
+$id              = $funciones->validar_xss($_POST['id']);
 $clasificacion   = new Clasificacion('?','?','?','?','?'); 
 
 $valor           = $clasificacion -> eliminar($id);

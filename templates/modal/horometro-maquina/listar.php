@@ -1,5 +1,4 @@
 <?php
-
 include "../../../autoload.php";
 include "../../../session.php";
 
@@ -22,8 +21,8 @@ count($horometrodiario->lista());
     <tr class="active">
       <th>MÁQUINA</th>
       <th>FECHA</th>
-      <th>CANTIDAD INICIAL</th>
-      <th>CANTIDAD FINAL</th>
+      <th>HORÓMETRO INICIAL</th>
+      <th>HORÓMETRO FINAL</th>
       <th style="text-align: center;">ACCIONES</th>
     </tr>
   </thead>

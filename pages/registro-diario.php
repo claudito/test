@@ -22,7 +22,6 @@ $(function () {
 <style>table{font-size: 12px;}</style>
 <?php
 $html ->header();
-//include('../templates/modal/registrodiario/agregar.php');
 include('../templates/modal/registrodiario/eliminar.php');
  ?>
 

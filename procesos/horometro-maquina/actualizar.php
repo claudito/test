@@ -8,7 +8,7 @@ $id              = addslashes($_POST['id']);
 $cant_inicial    = addslashes($_POST['cant_inicial']);
 $cant_final      = addslashes($_POST['cant_final']);
 
-$horometrodiario = new Horometrodiario('?','?',$cant_inicial,$cant_final);
+$horometrodiario = new Horometrodiario(date(FECHA),'?',$cant_inicial,$cant_final);
 $valor           = $horometrodiario->actualizar($id);
 
     

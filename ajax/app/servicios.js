@@ -16,20 +16,20 @@ function loadTabla(page){
   }
 
 
-$( "#agregar" ).submit(function( event ) {
+$( "#buscar" ).submit(function( event ) {
 var parametros = $(this).serialize();
 $.ajax({
   type: "POST",
-  url: "../procesos/servicios/agregar.php",
+  url: "../procesos/servicios/buscar.php",
   data: parametros,
    beforeSend: function(objeto){
     $("#mensaje").html("Mensaje: Cargando...");
     },
   success: function(datos){
   $("#mensaje").html(datos);//mostrar mensaje 
-  $('#agregar').modal('hide'); // ocultar  formulario
+  $('#buscar').modal('hide'); // ocultar  formulario
   //$("#agregar")[0].reset();  //resetear inputs
-  $('#newModal').modal('hide');  // ocultar modal
+  $('#buscarModal').modal('hide');  // ocultar modal
   loadTabla(1);
   }
 });

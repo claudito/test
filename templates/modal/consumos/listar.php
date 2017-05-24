@@ -11,7 +11,7 @@ count($consumos->lista());
 <?php if (count($consumos->lista($_SESSION['fechainicio_consumo'],$_SESSION['fechafin_consumo']))>0): ?>
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">Lista de Consumos - Notas de Salida</h3>
+    <h3 class="panel-title">Lista de Consumos - Detalle Notas de Salida</h3>
   </div>
   <div class="panel-body">
     <div class="table-responsive">
@@ -19,10 +19,19 @@ count($consumos->lista());
   <thead>
     <tr class="active">
       <th>NOTA DE SALIDA</th>
-      <th>FECHA</th>
-      <th>TIPO DE MOVIMIENTO</th>
-      <th>DOC. DE REFERENCIA</th>
+      <th>SUB OT</th>
+      <th>ITEM</th>
+      <th>CÓDIGO</th>
+      <th>DESCRIPCIÓN</th>
+      <th>CANT</th>
+      <th>PRECIO</th>
+      <th>MOV</th>
+      <th>MONEDA</th>
+      <th>OT</th>
+      <th>TIPO DOC</th>
+      <th>DOC</th>
       <th>GLOSA</th>
+      <th>FECHA</th>
     </tr>
   </thead>
   <tbody>
@@ -32,13 +41,22 @@ count($consumos->lista());
   {
   ?>
   <tr>
-  <td><a data-ni="<?php echo $value['CANUMDOC'];?>" class="btn-edit">
+  <td><a data-ni="<?php echo $value['CANUMDOC'];?>" data-item="<?php echo $value['DEITEM'];?>" class="btn-edit">
   <?php echo utf8_encode($value['CANUMDOC']); ?>
   </a></td>
-  <td><?php echo date_format(date_create($value['CAFECDOC']), 'd/m/Y');?></td>
-  <td><?php echo utf8_encode($value['CACODMOV']); ?></td>
+  <td><?php echo $value['SUB_OT']; ?></td>
+  <td><?php echo $value['DEITEM']; ?></td>
+  <td><?php echo utf8_encode($value['DECODIGO']); ?></td>
+  <td><?php echo utf8_encode($value['DEDESCRI']); ?></td>
+  <td><?php echo round($value['DECANTID'],2); ?></td>
+  <td><?php echo round($value['DEPRECIO'],2); ?></td>
+  <td><?php echo utf8_encode($value['CATIPMOV']); ?></td>
+  <td><?php echo utf8_encode($value['CACODMON']); ?></td>
+  <td><?php echo utf8_encode($value['DEORDFAB']); ?></td>
   <td><?php echo utf8_encode($value['CARFTDOC']); ?></td>
+  <td><?php echo utf8_encode($value['CARFNDOC']); ?></td>
   <td><?php echo utf8_encode($value['CAGLOSA']); ?></td>
+  <td><?php echo date_format(date_create($value['CAFECDOC']), 'd/m/Y');?></td>
   </tr>
   <?php
 
@@ -57,8 +75,9 @@ count($consumos->lista());
 <!-- Modal -->
   <script>
     $(".btn-edit").click(function(){
-      ni= $(this).data("ni");
-      $.get("../templates/modal/consumos/actualizar.php","ni="+ni,function(data){
+      ni   = $(this).data("ni");
+      item = $(this).data("item");
+      $.get("../templates/modal/consumos/actualizar.php","ni="+ni+"&item="+item,function(data){
         $("#form-edit").html(data);
       });
       $('#editModal').modal('show');

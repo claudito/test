@@ -16,7 +16,7 @@ $maquinacab      = $registrodiario_cab->consulta('IDMAQUINA');
 
 $turno           = $registrodiario_cab->consulta('IDTURNO');
 $ot              = addslashes($_POST['ot']);
-$cantidad_ot     = addslashes($_POST['cantidad']);
+$cantidad_ot     = $funciones->validar_xss($_POST['cantidad']);
 $idclasificacion = addslashes($_POST['clasificacion']);
 $idprocesos      = addslashes((!isset($_POST['procesos'])) ? "0" : $_POST['procesos']);
 $idmaquina       = addslashes((!isset($_POST['maquina'])) ? "0" : $_POST['maquina']);
@@ -24,8 +24,8 @@ $horainicio      = addslashes($_POST['horainicio']);
 $horafin         = addslashes($_POST['horafin']);
 $horastrabajo    = $funciones->horastrabajo($horainicio,$horafin);
 $horashombre     = $funciones->horashombre($horastrabajo);
-$detalle         = addslashes(trim($_POST['detalle']));
-$observacion     = addslashes(trim($_POST['observacion']));
+$detalle         = $funciones->validar_xss($_POST['detalle']);
+$observacion     = $funciones->validar_xss($_POST['observacion']);
 
 if ($clasificacion->consulta($idclasificacion,'TIPO_STAND_BY')==3 || $procesos->consulta($idprocesos,'TIPO_STAND_BY')==3) 
 {

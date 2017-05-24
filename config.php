@@ -3,10 +3,10 @@
 date_default_timezone_set('America/Lima');
 
 //define("PATH", "http://".$_SERVER['SERVER_NAME'].substr(dirname(__FILE__).DIRECTORY_SEPARATOR,strlen($_SERVER['DOCUMENT_ROOT'])));
-define("PATH","http://192.168.1.11/app-costos/");
+define("PATH","http://localhost/app-costos/");
 define("FOLDER","/app-costos/");
 define("RUTA", dirname(__FILE__).DIRECTORY_SEPARATOR);
-define("SERVER","192.168.1.11");
+define("SERVER","localhost");
 define("USER", "SISTEMAS");
 define("PASS", "SISTEMAS");
 define("BD", "[BD_COSTOS]");

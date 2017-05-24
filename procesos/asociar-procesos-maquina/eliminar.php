@@ -1,8 +1,10 @@
 <?php
 
-include('../../autoload.php');          
+include('../../autoload.php');
+include '../../session.php';
+$funciones = new Funciones();  
 
-$id                = addslashes(trim($_POST['id']));
+$id                = $funciones->validar_xss($_POST['id']);
 
 $procesos_maquina   = new Procesos_maquina($procesos,$maquina); 
 

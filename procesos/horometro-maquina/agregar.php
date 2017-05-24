@@ -4,7 +4,7 @@ include('../../autoload.php');
 include('../../session.php');
 
 
-$fecha  = date_format(date_create($_POST['fecha']), FECHA);
+$fecha  = $_POST['fecha'];
 
 $_SESSION['fecha_horometro'] = $fecha;
 

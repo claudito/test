@@ -50,7 +50,7 @@ $("#datos-update").html(data);
 <label>Orden de Trabajo</label>
 <div class="row">
 
-<div class="col-md-9">
+<div class="col-md-8">
 <div class="form-group">
 <select name="ot" id="idot_u" class="demo-default" required="">
 <option value="<?php echo $registrodiario_det->consulta($id,'OT'); ?>"><?php echo $registrodiario_det->consulta($id,'OT'); ?></option>
@@ -58,7 +58,7 @@ $("#datos-update").html(data);
 $ot = new Ot();
 foreach ($ot->lista_actualizar($registrodiario_det->consulta($id,'OT')) as $key => $value) 
 {
-echo "<option value='".$value['CODIGOOT']."'>".$value['CODIGOOT'].' - '.utf8_encode($value['CODIGO']).' - '.utf8_encode($value['ADESCRI'])."</option>";
+echo "<option value='".$value['OF_COD']."'>".$value['OF_COD'].' - '.utf8_encode($value['CODIGO']).' - '.utf8_encode($value['ADESCRI'])."</option>";
 }
 
 ?>
@@ -72,11 +72,19 @@ maxItems: 1
 
 </div>
 
-<div class="col-md-3">
+
 <div id="datos-ot_u">
+<div class="col-md-2">
 <input type="number" name="cantidad"  class="form-control"  value="<?php echo round($registrodiario_det -> consulta($id,'CANTIDAD_OT'),2); ?>" max="<?php echo round($ot->consulta($registrodiario_det->consulta($id,'OT'),'OF_ARTCANT'),2); ?>"  required=""  placeholder="Cantidad: <?php echo round($ot->consulta($registrodiario_det->consulta($id,'OT'),'OF_ARTCANT'),2); ?>">
 </div>
+<div class="col-md-2">
+ 
+<input type="text" class="form-control" 
+ value="<?php echo $ot->consulta($registrodiario_det->consulta($id,'OT'),'OF_ESTADO'); ?>" readonly>
+
 </div>
+</div>
+
 
 
 </div>

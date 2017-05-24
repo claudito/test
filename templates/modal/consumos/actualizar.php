@@ -3,6 +3,7 @@ include '../../../autoload.php';
 include '../../../session.php';
 
 $ni        = $_GET['ni'];
+$item      = $_GET['item'];
 
 $consumos  = new Consumos();
 $cencosot  = new Cencosot();
@@ -29,7 +30,7 @@ $cencosot  = new Cencosot();
       </tr>
     </thead>
     <tbody>
-    <?php foreach ($consumos->detalle($ni) as $key => $value): ?>
+    <?php foreach ($consumos->detalle($ni,$item) as $key => $value): ?>
     <tr>
     <input type="hidden" name="ni" value="<?php echo $ni ?>">
     <input type="hidden" name="item[]" value="<?php echo $value['DEITEM']; ?>">
@@ -38,7 +39,6 @@ $cencosot  = new Cencosot();
      <select name="subot[]" required="">
       <?php if ($value['SUB_OT']=='VACIO'): ?>
       <option value="">...</option>
-      <option value="0">-</option>
       <?php 
 
       foreach ($cencosot->lista_subot($value['DEORDFAB']) as $key_ot => $value_ot) 
@@ -96,7 +96,7 @@ $cencosot  = new Cencosot();
           $('#editModal').modal('hide'); //ocultar modal
           $('body').removeClass('modal-open');
           $('.modal-backdrop').remove();
-          //loadTabla(1);
+          loadTabla(1);
           }
       });
   });

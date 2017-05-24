@@ -48,6 +48,7 @@
 			<div class="form-group">
 			<label>MÁQUINA</label>
 			<select name="maquina" class="form-control" required="">
+			<option value="<?php echo $registrodiario_cab->consulta('IDMAQUINA'); ?>"><?php echo utf8_encode($registrodiario_cab->consulta('CODIGO_INTERNO')).' - '.utf8_encode($registrodiario_cab->consulta('DESCRIPCION')); ?></option>
 			<?php 
             $maquina = new Maquina('?','?','?','?','?','?','?','?','?','?','?','?','?','?','?');
             foreach ($maquina->lista_actualizar($registrodiario_cab->consulta('IDMAQUINA')) as $key => $value) 

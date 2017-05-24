@@ -13,7 +13,7 @@ protected $cant_final;
 function __construct($fecha='',$maquina='',$cant_inicial='',$cant_final='')
 {
 
-$this->fecha         = $fecha;
+$this->fecha         = date_format(date_create($fecha), FECHA);
 $this->maquina       = $maquina;
 $this->cant_inicial  = $cant_inicial;
 $this->cant_final    = $cant_final;

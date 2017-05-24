@@ -51,7 +51,41 @@ return $dec;
 
 
 
+function validar_xss($cadena)
+{
+	$cadena = htmlspecialchars(trim($cadena), ENT_QUOTES,'UTF-8');
+	return $cadena;
+}
 
+
+function first_day_mes()
+{
+ 
+ $my_date = new DateTime();
+ $my_date->modify('first day');
+ return $my_date->format('Y-m-d');
+
+}
+
+
+function last_day_mes()
+{
+
+ $my_date = new DateTime();
+ $my_date->modify('last day');
+ return $my_date->format('Y-m-d');
+	
+}
+
+
+function add_day($date,$day)
+{
+	 
+$newdate = new DateTime($date);
+$newdate->modify('+'.$day.' day');
+return $newdate->format('Y-m-d');
+
+}
 
 
 }

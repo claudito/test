@@ -1,12 +1,15 @@
 <?php
 
-include('../../autoload.php');          
+include('../../autoload.php');
+include '../../session.php';
 
-$nombre          = addslashes(trim($_POST['nombre']));
-$detalle         = addslashes(trim($_POST['detalle']));
-$abrv            = addslashes(trim($_POST['abrv']));
-$asistencia      = addslashes(trim($_POST['asistencia']));
-$tipo_stand_by   = addslashes(trim($_POST['tipo_stand_by']));
+$funciones = new Funciones();     
+
+$nombre          = $funciones->validar_xss($_POST['nombre']);
+$detalle         = $funciones->validar_xss($_POST['detalle']);
+$abrv            = $funciones->validar_xss($_POST['abrv']);
+$asistencia      = $funciones->validar_xss($_POST['asistencia']);
+$tipo_stand_by   = $funciones->validar_xss($_POST['tipo_stand_by']);
 
 $clasificacion   = new Clasificacion($nombre,$detalle,$abrv,$asistencia,$tipo_stand_by); 
 

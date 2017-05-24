@@ -9,13 +9,21 @@ $assets -> sweetalert();
 $html ->header();
 
 
-include('../templates/modal/servicios/agregar.php');
+include('../templates/modal/servicios/buscar.php');
 
  ?>
 
 <style>
 table{font-size: 12px}
 </style>
+
+<script>
+swal({
+  title: "Sólo se muestran los documentos,dónde el campo OT no se encuentra vacío.",
+  timer: 5000,
+  showConfirmButton: false
+});
+</script>
 
 <div class="row">
 <div class="col-md-12">
@@ -27,7 +35,7 @@ table{font-size: 12px}
 <div class="col-md-12">
 <div class="pull-right">
 <div class="form-group">
- <a data-toggle="modal" href="#newModal" class="btn btn-primary">Actualizar Fecha</a>
+ <a data-toggle="modal" href="#buscarModal" class="btn btn-primary">Rango de Consulta</a>
 </div>
 </div>
 </div>

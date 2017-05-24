@@ -10,9 +10,9 @@
 <form role="form" method="post" id="agregar">
 
 <div class="form-group">
-<input type="date" name="fecha" required="" class="form-control">
+<input type="date" name="fecha" required="" class="form-control" value="<?php echo $_SESSION['fecha_horometro'] ?>
+">
 </div>
-
 
 <button type="submit" class="btn btn-primary">Consultar</button>
 </form>

@@ -1,9 +1,12 @@
 <?php 
 
 include('../../autoload.php');  	
+include '../../session.php';
 
-$id          = addslashes(trim($_GET['id']));
-$relacion_ot = addslashes(trim($_GET['valor']));
+$funciones = new Funciones();
+
+$id          = $funciones->validar_xss($_POST['id']);
+$relacion_ot = $funciones->validar_xss($_POST['valor']);
 
 
 $clasificacion   = new Clasificacion('?','?','?','?','?'); 

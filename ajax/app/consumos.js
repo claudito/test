@@ -16,26 +16,26 @@ function loadTabla(page){
   }
 
 
-$( "#agregar" ).submit(function( event ) {
+
+$( "#buscar" ).submit(function( event ) {
 var parametros = $(this).serialize();
 $.ajax({
   type: "POST",
-  url: "../procesos/consumos/agregar.php",
+  url: "../procesos/consumos/buscar.php",
   data: parametros,
    beforeSend: function(objeto){
     $("#mensaje").html("Mensaje: Cargando...");
     },
   success: function(datos){
   $("#mensaje").html(datos);//mostrar mensaje 
-  $('#agregar').modal('hide'); // ocultar  formulario
+  $('#buscar').modal('hide'); // ocultar  formulario
   //$("#agregar")[0].reset();  //resetear inputs
-  $('#newModal').modal('hide');  // ocultar modal
+  $('#buscarModal').modal('hide');  // ocultar modal
   loadTabla(1);
   }
 });
 event.preventDefault();
 });
-
 
 
 

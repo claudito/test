@@ -45,16 +45,16 @@ $("#datos-procesos").html(data);
 
 <label>Orden de trabajo</label>
 <div class="row">
-<div class="col-md-9">
+<div class="col-md-8">
 
 <div class="form-group">
 <select name="ot" id="idot" class="demo-default" required="">
 <option value="">[ Seleccionar ]</option>
 <?php 
 $ot = new Ot();
-foreach ($ot->lista() as $key => $value) 
+foreach ($ot->lista_registro_diario() as $key => $value) 
 {
-echo "<option value='".$value['CODIGOOT']."'>".$value['CODIGOOT'].' - '.utf8_encode($value['CODIGO']).' - '.utf8_encode($value['ADESCRI'])."</option>";
+echo "<option value='".$value['OF_COD']."'>".$value['OF_COD'].' - '.utf8_encode($value['CODIGO']).' - '.utf8_encode($value['ADESCRI'])."</option>";
 }
 
 ?>
@@ -69,10 +69,8 @@ maxItems: 1
 
 </div>
 
-
-<div class="col-md-3">
 <div id="datos-ot"></div>
-</div>
+
 
 
 </div>
@@ -127,16 +125,20 @@ if (count($registrodiario_det->lista())==0): ?>
 </div>
 </div>
 <?php else: ?>
+<?php 
+$horainicio =  date_format(date_create($registrodiario_det->ultimo_registro('HORA_FIN')), 'H:i');
+$horafin    = $funciones->sumarmin($horainicio,30);
+?>
 <div class="col-md-4">
 <div class="form-group">
 <label>Hora Inicio</label>
-<input type="time" name="horainicio"  class="form-control" required>
+<input type="time" name="horainicio" value="<?php echo $horainicio; ?>"  class="form-control" required>
 </div>
 </div>
 <div class="col-md-4">
 <label>Hora Fin</label>
 <div class="form-group">
-<input type="time" name="horafin"     class="form-control" required>
+<input type="time" name="horafin"   value="<?php echo $horafin; ?>"   class="form-control" required>
 </div>
 </div>	
 <?php endif ?>

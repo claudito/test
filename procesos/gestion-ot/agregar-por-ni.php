@@ -5,7 +5,7 @@ include '../../session.php';
 
 
 $codigo        =  addslashes(trim($_POST['codigo']));
-$ot  		   =  addslashes(trim($_POST['ot']));
+$ot  		       =  addslashes(trim($_POST['ot']));
 $centro_costo  =  addslashes(trim($_POST['centro_costo']));
 $fechainicio   =  date_format(date_create(addslashes(trim($_POST['fechainicio']))), FECHA);
 $ni            =  $_POST['ni'];

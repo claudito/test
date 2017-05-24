@@ -1,7 +1,9 @@
 <?php 
 
 include('../../../autoload.php');
-$ot   = $_GET['ot'];
+$ot      = $_GET['ot'];
+$subot   = $_GET['subot'];
+$vua      = $_GET['vua'];
 
 $cencosot    = new Cencosot();
 
@@ -18,13 +20,6 @@ $fechainicio =  date_format(date_create($cencosot->consulta($ot,'OF_FECHINI')), 
 </div>
 
 <form  role="form" id="agregar-ni" >
-
- <input type="hidden" name="codigo" value="<?php echo $cencosot->consulta($ot,'CODIGO') ?>">
- <input type="hidden" name="ot" value="<?php echo $cencosot->consulta($ot,'OF_COD') ?>">
- <input type="hidden" name="centro_costo" value="<?php echo $cencosot->consulta($ot,'CODIGOCENTROCOSTO') ?>">
-  <input type="hidden" name="fechainicio" value="<?php echo $cencosot->consulta($ot,'OF_FECHINI') ?>">
-
-<button type="submit" class="btn btn-primary btn-xs btn-block">CREAR SUB OT</button>
 
 <div class="table-responsive">
   <table class="table table-bordered table-condensed">
@@ -121,7 +116,6 @@ $fechainicio =  date_format(date_create($cencosot->consulta($ot,'OF_FECHINI')), 
           <th >STATUS</th>
           <th >TIPO OT</th>
           <th >TIPO PROCESO</th>
-          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
@@ -170,9 +164,6 @@ $fechainicio =  date_format(date_create($cencosot->consulta($ot,'OF_FECHINI')), 
     <option value="MECANIZADO TOTAL">MECANIZADO TOTAL</option>
     </select>
     </td>
-    <td style="text-align: center;">
-    <a data-toggle="modal" data-target="#dataDelete" data-id="<?php echo $value['ID']?>"><i class="glyphicon glyphicon-trash text-danger"></i></a>
-    </td>
       </tr>
       <?php endforeach ?>
       </tbody>
@@ -180,155 +171,19 @@ $fechainicio =  date_format(date_create($cencosot->consulta($ot,'OF_FECHINI')), 
   </div>
 
 
-  <button type="submit" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-refresh"></i>  Actualizar lista&nbsp;</button>
   </form>
 
 <p></p>
 
- <form role="form" id="actualizar" >
-
- <input type="hidden" name="codigo" value="<?php echo $cencosot->consulta($ot,'CODIGO') ?>">
- <input type="hidden" name="ot" value="<?php echo $cencosot->consulta($ot,'OF_COD') ?>">
- <input type="hidden" name="centro_costo" value="<?php echo $cencosot->consulta($ot,'CODIGOCENTROCOSTO') ?>">
-
-  
-<div class="form-group">
-<a class="btn btn-success btn-sm" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-<i class="glyphicon glyphicon-floppy-saved"></i> Agregar Sub OT
-</a>
+<div class="row">
+<div class="col-md-12">
+<form  id="costounitarioacumulado"  class="form-inline" autocomplete="Off">
+  <input type="hidden" name="subot" value="<?php echo $subot; ?>">
+  <input type="number" min="0"  step="any" name="cantidad" value="<?php echo $vua; ?>" class="form-control" required="" >
+  <button type="submit" class="btn btn-primary">Agregar Costo Unitario Acumulado</button>
+</form>
 </div>
-
-
-<div class="collapse" id="collapseExample">
-  <div class="well">
-   
-  <div class="row">
-
-  <div class="col-md-2">
-  <div class="form-group">
-  <label>SUB OT</label>
-  <input type="number" name="subot"  required="" class="form-control input-sm" min="1"  max="20" >
-  </div>
-  </div>
-
-  <div class="col-md-2">
-  <div class="form-group">
-  <label>CANTIDAD</label>
-  <input type="number" name="cantidad"  required="" step="any"  class="form-control input-sm" min="0">
-  </div>
-  </div>
-
-
-  <div class="col-md-2">
-  <div class="form-group">
-  <label>ENTREGA</label>
-  <input type="number" name="entrega"  required="" step="any"  class="form-control input-sm" min="0">
-  </div>
-  </div>
-
-  <div class="col-md-2">
-  <div class="form-group">
-  <label>SALDO</label>
-  <input type="number" name="saldo"  required="" step="any"  class="form-control input-sm" min="0">
-  </div>
-  </div>
-
-  <div class="col-md-4">
-  <div class="form-group">
-  <label>FECHA INICIO</label>
-  <input type="date" name="fechainicio"  required="" class="form-control input-sm" value="<?php echo $fechainicio; ?>">
-  </div>
-  </div>
-
-
-
-   </div>
-
-  <div class="row">
-
-  <div class="col-md-3">
-  <div class="form-group">
-  <label>FECHA FIN</label>
-  <input type="date" name="fechafin"   class="form-control input-sm" >
-  </div>
-  </div>
-
-  
-  <div class="col-md-3">
-  <div class="form-group">
-  <label>NOTA DE INGRESO</label>
-  <input type="text" name="nota_ingreso" class="form-control input-sm" required="" >
-  </div>
-  </div>
-
-  <div class="col-md-3">
-  <div class="form-group">
-  <label>TIPO DE ENTREGA</label>
-  <select name="tipo_entrega" class="form-control input-sm" required="">
-  <option value="">[ Seleccionar ]</option>
-  <option value="ENTREGA PARCIAL">ENTREGA PARCIAL</option>
-  <option value="ENTREGA TOTAL">ENTREGA TOTAL</option>
-  </select>
-  </div>
-  </div>
-
-  <div class="col-md-3">
-  <div class="form-group">
-  <label>STATUS</label>
-  <select name="status" class="form-control input-sm" required="">
-  <option value="">[ Seleccionar ]</option>
-  <option value="ANULADO">ANULADO</option>
-  <option value="LIQUIDADO">LIQUIDADO</option>
-  <option value="PROCESO">PROCESO</option>
-  </select>
-  </div>
-  </div>
-
-  
-
-  </div>
-
-  <div class="row">
-  
-  <div class="col-md-3">
-  <div class="form-group">
-  <label>TIPO DE OT</label>
-  <select name="tipo_ot" class="form-control input-sm" required="">
-  <option value="">[ Seleccionar ]</option>
-  <option value="SERVICIO">SERVICIO</option>
-  <option value="ENSAMBLE">ENSAMBLE</option>
-  <option value="FABRICACIÓN">FABRICACIÓN</option>
-  <option value="GARANTIA">GARANTIA</option>
-  <option value="TRABAJO INTERNO">TRABAJO INTERNO</option>
-  </select>
-  </div>
-  </div>
-
-  <div class="col-md-3">
-  <div class="form-group">
-  <label>TIPO DE PROCESO</label>
-  <select name="tipo_proceso" class="form-control input-sm" required="">
-  <option value="">[ Seleccionar ]</option>
-  <option value="FABRICACIÓN PARCIAL">FABRICACIÓN PARCIAL</option>
-  <option value="MECANIZADO PARCIAL">MECANIZADO PARCIAL</option>
-  <option value="MECANIZADO TOTAL">MECANIZADO TOTAL</option>
-  </select>
-  </div>
-  </div>
-  </div>
-
-  <div class="row">
-  <div class="col-md-12">
-  <button class="btn btn-primary">Registrar Sub OT</button>
-  </div>
-  </div>
-
-
-  </div>
 </div>
-  
-
- </form>
 
 
 <?php else: ?>
@@ -341,54 +196,13 @@ $fechainicio =  date_format(date_create($cencosot->consulta($ot,'OF_FECHINI')), 
 
  <script>
 
- $( "#agregar" ).submit(function( event ) {
-var parametros = $(this).serialize();
-$.ajax({
-  type: "POST",
-  url: "../procesos/gestion-ot/actualizar.php",
-  data: parametros,
-   beforeSend: function(objeto){
-    $("#mensaje").html("Mensaje: Cargando...");
-    },
-  success: function(datos){
-  $("#mensaje").html(datos);//mostrar mensaje 
-  $('#agregar').modal('hide'); // ocultar  formulario
-  //$("#agregar")[0].reset();  //resetear inputs
-  $('#editModal').modal('hide');  // ocultar modal
-  //loadTabla(1);
-  }
-});
-event.preventDefault();
-});
 
-$("#agregar-ni").submit(function(e){
-e.preventDefault();
-var parametros = $(this).serialize();
-$.ajax({
-type: "POST",
-url: "../procesos/gestion-ot/agregar-por-ni.php",
-data: parametros,
-beforeSend: function(objeto){
-$("#mensaje").html("Mensaje: Cargando...");
-},
-success: function(datos){
-$("#mensaje").html(datos);
-//$("#actualizar")[0].reset();  //resetear inputs
-$('#editModal').modal('hide'); //ocultar modal
-$('body').removeClass('modal-open');
-$('.modal-backdrop').remove();
-//loadTabla(1);
-}
-});
-});
-
-
- $("#actualizar").submit(function(e){
+ $("#costounitarioacumulado").submit(function(e){
     e.preventDefault();
     var parametros = $(this).serialize();
      $.ajax({
           type: "POST",
-          url: "../procesos/gestion-ot/agregar.php",
+          url: "../procesos/gestion-ot-costeo/costounitarioacumulado.php",
           data: parametros,
            beforeSend: function(objeto){
             $("#mensaje").html("Mensaje: Cargando...");
@@ -399,44 +213,12 @@ $('.modal-backdrop').remove();
           $('#editModal').modal('hide'); //ocultar modal
           $('body').removeClass('modal-open');
           $('.modal-backdrop').remove();
-          //loadTabla(1);
+          loadTabla(1);
           }
       });
   });
 
 
-
-
-$('#dataDelete').on('show.bs.modal', function (event) {
-      var button = $(event.relatedTarget) // Botón que activó el modal
-      var id = button.data('id') // Extraer la información de atributos de datos
-      var modal = $(this)
-      modal.find('#id').val(id)
-      $("body").removeAttr("style"); // remover todos los estilos
-    })
-
-
-$( "#eliminarDatos" ).submit(function( event ) {
-    var parametros = $(this).serialize();
-       $.ajax({
-          type: "POST",
-          url: "../procesos/gestion-ot/eliminar.php",
-          data: parametros,
-           beforeSend: function(objeto){
-            $("#mensaje").html("Mensaje: Cargando...");
-            },
-          success: function(datos){
-           $("#mensaje").html(datos);
-         //$("#actualizar")[0].reset();  //resetear inputs
-          $('#dataDelete').modal('hide'); //ocultar modal
-          $('#editModal').modal('hide'); //ocultar modal
-          $('body').removeClass('modal-open');
-          $('.modal-backdrop').remove();
-          //loadTabla(1);
-          }
-      });
-      event.preventDefault();
-    });
 </script>
 
  <?php else: ?>

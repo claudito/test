@@ -11,29 +11,26 @@ count($servicios->lista());
 <?php if (count($servicios->lista($_SESSION['fechainicio_servicio'],$_SESSION['fechafin_servicio']))>0): ?>
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">Lista de Ordenes de Servicio</h3>
+    <h3 class="panel-title">Detalle Notas de Ingreso por Ordenes de Servicio </h3>
   </div>
   <div class="panel-body">
     <div class="table-responsive">
   <table id="consulta"  class="table table-bordered table-hover ">
   <thead>
     <tr class="active">
-      <th>O/S</th>
-      <th>R/S</th>
-      <th>OT</th>
-      <th>RUC</th>
-      <th>FECHA</th>
-      <th>RAZÓN SOCIAL</th>
-      <th>COTIZACIÓN</th>
+      <th>NOTA DE INGRESO</th>
+      <th>SUB OT</th>
+      <th>ITEM</th>
+      <th>CÓDIGO</th>
+      <th>DESCRIPCIÓN</th>
+      <th>CANT</th>
+      <th>PRECIO</th>
       <th>MONEDA</th>
-      <th>FORMA DE PAGO</th>
-      <th>R. DE COMPRAS</th>
-      <th>SOLIICITANTE</th>
-      <th>T/C</th>
-      <th>IMPORTE</th>
-      <th>IGV</th>
-      <th>VENTA</th>
-      <th>ESTADO</th>
+      <th>TIPO DOC</th>
+      <th>DOC</th>
+      <th>OT</th>
+      <th>ORDEN DE SERVICIO</th>
+      <th>FECHA</th>  
     </tr>
   </thead>
   <tbody>
@@ -43,24 +40,21 @@ count($servicios->lista());
   {
   ?>
   <tr>
-  <td><a data-oc="<?php echo $value['OC_CNUMORD'];?>" class="btn-edit">
-  <?php echo utf8_encode($value['OC_CNUMORD']); ?>
+  <td><a data-oc="<?php echo $value['CANUMORD'];?>" data-ni="<?php echo $value['CANUMDOC'];?>" class="btn-edit">
+  <?php echo utf8_encode($value['CANUMDOC']); ?>
   </a></td>
-  <td><?php echo utf8_encode($value['OC_CNRODOCREF']); ?></td>
-  <td><?php echo utf8_encode($value['OC_ORDFAB']); ?></td>
-  <td><?php echo utf8_encode($value['OC_CCODPRO']); ?></td>
-  <td><?php echo date_format(date_create($value['OC_DFECDOC']), 'd/m/Y');?></td>
-  <td><?php echo utf8_encode($value['OC_CRAZSOC']); ?></td>
-  <td><?php echo utf8_encode($value['OC_CCOTIZA']); ?></td>
-  <td><?php echo utf8_encode($value['OC_CCODMON']); ?></td>
-  <td><?php echo utf8_encode($value['OC_CFORPAG']); ?></td>
-  <td><?php echo utf8_encode($value['RESPONSABLE_NOMBRE']); ?></td>
-  <td><?php echo utf8_encode($value['TDESCRI']); ?></td>
-  <td><?php echo round($value['OC_NTIPCAM'],2); ?></td>
-  <td><?php echo round($value['OC_NIMPORT'],2); ?></td>
-  <td><?php echo round($value['OC_NIGV'],2); ?></td>
-  <td><?php echo round($value['OC_NVENTA'],2); ?></td>
-  <td><?php echo utf8_encode($value['EST_COMPRA']); ?></td>
+  <td><?php echo utf8_encode($value['SUB_OT']); ?></td>
+  <td><?php echo round($value['DEITEM'],2); ?></td>
+  <td><?php echo utf8_encode($value['DECODIGO']); ?></td>
+  <td><?php echo utf8_encode($value['DEDESCRI']); ?></td>
+  <td><?php echo round($value['DECANTID'],2); ?></td>
+  <td><?php echo round($value['DEPRECIO'],2); ?></td>
+  <td><?php echo utf8_encode($value['CACODMON']); ?></td>
+  <td><?php echo utf8_encode($value['CARFTDOC']); ?></td>
+  <td><?php echo utf8_encode($value['CARFNDOC']); ?></td>
+  <td><?php echo utf8_encode($value['CACODLIQ']); ?></td>
+  <td><?php echo utf8_encode($value['CANUMORD']); ?></td>
+    <td><?php echo date_format(date_create($value['CAFECDOC']), 'd/m/Y');?></td>
 
 </tr>
   <?php
@@ -81,7 +75,8 @@ count($servicios->lista());
   <script>
     $(".btn-edit").click(function(){
       oc = $(this).data("oc");
-      $.get("../templates/modal/servicios/actualizar.php","oc="+oc,function(data){
+      ni = $(this).data("ni");
+      $.get("../templates/modal/servicios/actualizar.php","oc="+oc+"&ni="+ni,function(data){
         $("#form-edit").html(data);
       });
       $('#editModal').modal('show');
