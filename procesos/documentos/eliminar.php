@@ -3,21 +3,26 @@
 include '../../autoload.php';
 include '../../session.php';
 
-$cencostot = new Cencosot();
-$funciones = new Funciones();
+$id          =  $_POST['id'];
+
+$documentos  =  new Documentos();
+
+$ruta        = utf8_encode($documentos->consulta($id,'RUTA'));
+
+$archivo   = $_SERVER['DOCUMENT_ROOT'].'/app-costos/uploads/'.$ruta;
 
 
-$subot     =  $funciones->validar_xss($_POST['subot']);
-$cantidad  =  $funciones->validar_xss($_POST['cantidad']);
-
-$valor     =  $cencostot->actualizar_vua($cantidad,$subot);
+$valor       =  $documentos->eliminar($id);
 
 if ($valor == 'ok')  
 {
+
+unlink($archivo);
+
 echo '<script>
     swal({
     title: "Buen Trabajo",
-    text: "Actualización Exitosa",
+    text: "Archivo Eliminado",
     type:"success",
     timer: 2000,
     showConfirmButton: false
@@ -28,7 +33,7 @@ else if ($valor == 'error')
 {
 echo '<script>
     swal({
-    title: "Error de Actualización ",
+    title: "Error de Eliminación",
     text: "Consulte al área de Soporte",
     type:"danger",
     timer: 2000,

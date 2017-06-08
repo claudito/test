@@ -3,6 +3,15 @@
 include'../../../autoload.php';
 include'../../../session.php';
 
+
+$registrodiario_det  = new Registrodiario_det('?','?','?','?','?','?','?','?','?','?','?','?','?','?','?','?','?');
+
+$registrodiario_cab = new Registrodiario_cab('?','?','?','?','?'); 
+
+$ot                 = new Ot();
+
+$clasificacion      = new Clasificacion('?','?','?','?','?');
+
  ?>
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
@@ -45,13 +54,13 @@ $("#datos-procesos").html(data);
 
 <label>Orden de trabajo</label>
 <div class="row">
-<div class="col-md-8">
 
-<div class="form-group">
+<?php if ($registrodiario_det->lista()>0): ?>
+<div class="col-md-8">
 <select name="ot" id="idot" class="demo-default" required="">
-<option value="">[ Seleccionar ]</option>
+<option value="<?php echo $ot->ultimo_registro('OT'); ?>"><?php echo $ot->ultimo_registro('OT').' - '.utf8_encode($ot->ultimo_registro('CODIGO')).' - '.utf8_encode($ot->ultimo_registro('ADESCRI')); ?></option>
 <?php 
-$ot = new Ot();
+
 foreach ($ot->lista_registro_diario() as $key => $value) 
 {
 echo "<option value='".$value['OF_COD']."'>".$value['OF_COD'].' - '.utf8_encode($value['CODIGO']).' - '.utf8_encode($value['ADESCRI'])."</option>";
@@ -65,11 +74,44 @@ maxItems: 1
 });
 </script>
 </div>
+<div id="datos-ot">
+<div class="col-md-2">
 
+ <input type="number" step="any"  name="cantidad" class="form-control" min="0" required="" max="<?php echo round($ot->consulta($ot->ultimo_registro('OT'),'OF_ARTCANT'),2); ?>" placeholder="Cant: <?php echo round($ot->consulta($ot->ultimo_registro('OT'),'OF_ARTCANT'),2); ?>" required>
+ 
+</div>
+
+
+
+<div class="col-md-2">
+ 
+<input type="text" class="form-control" value="<?php echo $ot->consulta($ot->ultimo_registro('OT'),'OF_ESTADO'); ?>" readonly>
 
 </div>
 
-<div id="datos-ot"></div>
+</div>
+<?php else: ?>
+<div class="col-md-8">
+<select name="ot" id="idot" class="demo-default" required="">
+<option value="">[ Seleccionar ]</option>
+<?php 
+
+foreach ($ot->lista_registro_diario() as $key => $value) 
+{
+echo "<option value='".$value['OF_COD']."'>".$value['OF_COD'].' - '.utf8_encode($value['CODIGO']).' - '.utf8_encode($value['ADESCRI'])."</option>";
+}
+
+?>
+</select>
+<script >
+$('#idot').selectize({
+maxItems: 1
+});
+</script>
+</div>
+<div id="datos-ot">
+</div>
+<?php endif ?>
 
 
 
@@ -84,7 +126,6 @@ maxItems: 1
 <option value="">[ Seleccionar ]</option>
 <?php 
 
-$clasificacion = new Clasificacion('?','?','?','?','?');
 foreach ($clasificacion->lista() as $key => $value) 
 {
 echo "<option value='".$value['ID']."'>".utf8_encode($value['NOMBRE']).' - '.utf8_encode($value['DETALLE'])."</option>";
@@ -104,8 +145,7 @@ echo "<option value='".$value['ID']."'>".utf8_encode($value['NOMBRE']).' - '.utf
 <div class="row">
 
 <?php 
-$registrodiario_det  = new Registrodiario_det('?','?','?','?','?','?','?','?','?','?','?','?','?','?','?','?','?');
-$registrodiario_cab = new Registrodiario_cab('?','?','?','?','?'); 
+
 $turnos  = new Turnos('?','?','?','?','?');
 $funciones = new Funciones();
 $horainicio =  date_format(date_create($turnos->consulta($registrodiario_cab->consulta('IDTURNO'),'HORA_INGRESO')), 'H:i');

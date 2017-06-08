@@ -60,8 +60,8 @@ if (mssql_num_rows($result)>0)
 else 
 {
 
-$query   =  "INSERT INTO ".BD.".DBO.REGISTRO_DIARIO_DET(FECHA_TRABAJO,FECHA_PRODUCCION,HORA_INICIO,HORA_FIN,HORAS_TRABAJO,HORAS_HOMBRE,DETALLE,OBSERVACION,OT,CANTIDAD_OT,ID_TURNO,ID_USUARIO,ID_CLASIFICACION,ID_PROCESOS,ID_MAQUINA,TIPO,FECHA_CREACION)
-VALUES('".$this->fechatrabajo."','".$this->fechaproduccion."','".$this->horainicio."','".$this->horafin."','".$this->horastrabajo."','".$this->horashombre."','".$this->detalle."','".$this->observacion."','".$this->ot."','".$this->cantidad_ot."','".$this->turno."','".$this->usuario."','".$this->clasificacion."','".$this->procesos."','".$this->maquina."','".$this->tipo."','".date('d-m-Y H:i:s')."')";
+$query   =  "INSERT INTO ".BD.".DBO.REGISTRO_DIARIO_DET(FECHA_TRABAJO,FECHA_PRODUCCION,HORA_INICIO,HORA_FIN,HORAS_TRABAJO,HORAS_HOMBRE,DETALLE,OBSERVACION,OT,CANTIDAD_OT,ID_TURNO,ID_USUARIO,ID_CLASIFICACION,ID_PROCESOS,ID_MAQUINA,TIPO)
+VALUES('".$this->fechatrabajo."','".$this->fechaproduccion."','".$this->horainicio."','".$this->horafin."','".$this->horastrabajo."','".$this->horashombre."','".$this->detalle."','".$this->observacion."','".$this->ot."','".$this->cantidad_ot."','".$this->turno."','".$this->usuario."','".$this->clasificacion."','".$this->procesos."','".$this->maquina."','".$this->tipo."')";
 $result  = mssql_query(utf8_decode($query));
 if ($result) 
 {
@@ -181,7 +181,7 @@ INNER JOIN ".BD.".DBO.REGISTRO_DIARIO_CAB AS CA  ON
  D.FECHA_PRODUCCION=CA.FECHA_PRODUCCION
 AND D.ID_TURNO=CA.ID_TURNO AND D.ID_USUARIO=CA.ID_USUARIO
 WHERE D.ID_USUARIO='".$_SESSION[KEY.USUARIO]."' AND D.TIPO=1 
-ORDER BY HORA_INICIO DESC
+ORDER BY D.FECHA_TRABAJO DESC,D.HORA_FIN DESC
  ";
 $result  = mssql_query($query);
 $dato    = mssql_fetch_array($result);
@@ -243,6 +243,29 @@ return $dato[$campo];
 }
 
 
+
+function ot_actual()
+{
+  
+$conexion = new Conexion();
+$conexion->sqlserver();
+$query   =  "SELECT D.ID,D.FECHA_TRABAJO,D.FECHA_PRODUCCION,D.HORA_INICIO,D.HORA_FIN,HORAS_TRABAJO,D.HORAS_HOMBRE,
+D.DETALLE,D.OBSERVACION,D.OT,D.CANTIDAD_OT,D.ID_TURNO,D.ID_USUARIO,D.ID_CLASIFICACION,D.ID_PROCESOS,D.ID_MAQUINA,T.CODIGO AS TURNO,
+C.NOMBRE AS CLASIFICACION,P.NOMBRE AS PROCESOS,M.CODIGO_INTERNO+' '+M.DESCRIPCION AS MAQUINA,D.TIPO,D.FECHA_CREACION
+FROM ".BD.".DBO.REGISTRO_DIARIO_DET AS D
+LEFT JOIN ".BD.".DBO.TURNO AS T ON D.ID_TURNO=T.ID
+LEFT JOIN ".BD.".DBO.CLASIFICACION AS C ON D.ID_CLASIFICACION=C.ID
+LEFT JOIN ".BD.".DBO.PROCESOS AS P ON D.ID_PROCESOS=P.ID
+LEFT JOIN ".BD.".DBO.MAQUINA AS M ON D.ID_MAQUINA=M.ID
+INNER JOIN ".BD.".DBO.REGISTRO_DIARIO_CAB AS CA  ON /* 
+D.FECHA_TRABAJO=CA.FECHA_TRABAJO AND*/ D.FECHA_PRODUCCION=CA.FECHA_PRODUCCION
+AND D.ID_TURNO=CA.ID_TURNO AND D.ID_USUARIO=CA.ID_USUARIO
+WHERE D.ID='".$id."'";
+$result  = mssql_query($query);
+$dato    = mssql_fetch_array($result);
+return $dato[$campo];
+
+}
 
 
 

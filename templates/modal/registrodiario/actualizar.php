@@ -5,8 +5,6 @@ $registrodiario_det  = new Registrodiario_det('?','?','?','?','?','?','?','?','?
 
 $ot  = new Ot();
 
-
-
 ?>
 
 <script type="text/javascript" charset="utf-8">
@@ -53,7 +51,9 @@ $("#datos-update").html(data);
 <div class="col-md-8">
 <div class="form-group">
 <select name="ot" id="idot_u" class="demo-default" required="">
-<option value="<?php echo $registrodiario_det->consulta($id,'OT'); ?>"><?php echo $registrodiario_det->consulta($id,'OT'); ?></option>
+<option value="<?php echo $registrodiario_det->consulta($id,'OT'); ?>">
+<?php echo utf8_encode($ot->consulta($registrodiario_det->consulta($id,'OT'),'OF_COD')).' - '.utf8_encode($ot->consulta($registrodiario_det->consulta($id,'OT'),'CODIGO')).' - '.utf8_encode($ot->consulta($registrodiario_det->consulta($id,'OT'),'ADESCRI')); ?>
+</option>
 <?php 
 $ot = new Ot();
 foreach ($ot->lista_actualizar($registrodiario_det->consulta($id,'OT')) as $key => $value) 

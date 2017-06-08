@@ -20,7 +20,7 @@ table{font-size: 12px}
 <script>
 swal({
   title: "Sólo se muestran los documentos,dónde el campo OT no se encuentra vacío.",
-  timer: 5000,
+  timer: 3000,
   showConfirmButton: false
 });
 </script>

@@ -14,13 +14,6 @@ include('../templates/modal/consumos/buscar.php');
 table{font-size: 12px}
 </style>
 
-<script>
-swal({
-  title: "Sólo se muestran los documentos,dónde el campo OT no se encuentra vacío.",
-  timer: 3000,
-  showConfirmButton: false
-});
-</script>
 
 <div class="row">
 <div class="col-md-12">

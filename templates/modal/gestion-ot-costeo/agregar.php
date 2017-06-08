@@ -3,25 +3,15 @@
 include('../../../autoload.php');
 $ot      = $_GET['ot'];
 $subot   = $_GET['subot'];
-$vua      = $_GET['vua'];
-
 $cencosot    = new Cencosot();
 
 $cantidadot  =  $cencosot->consulta($ot,'CANT');
-$fechainicio =  date_format(date_create($cencosot->consulta($ot,'OF_FECHINI')), 'Y-m-d');
+$fechainicio =  date_format(date_create($cencosot->consulta($ot,'OF_FECHINI')), FECHA);
 
  ?>
 
-
- <?php if (count($cencosot->lista_ni($ot)) > 0): ?>
-<div class="modal-header">
-<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-<h4 class="modal-title">OT DE <?php echo $cencosot->tipo_ot(substr($ot, 0,1)) ?>: <?php echo $ot; ?></h4>
-</div>
-
-<form  role="form" id="agregar-ni" >
-
-<div class="table-responsive">
+<?php if (count($cencosot->lista_ni($ot))): ?>
+ <div class="table-responsive">
   <table class="table table-bordered table-condensed">
     <thead>
       <tr class="active">
@@ -89,23 +79,20 @@ $fechainicio =  date_format(date_create($cencosot->consulta($ot,'OF_FECHINI')), 
     </tbody>
   </table>
 
-</div>
-
-
-
-</form>
-
+</div> 
+<?php else: ?>
+<p class="alert alert-warning">No se ha registrado Ingresos.</p>
+<?php endif ?>
 
 <?php if (count($cencosot->lista_subot($ot)) > 0): ?>
-  <p></p> 
- <form role="form" method="post" id="agregar">
+  <form  id="costounitarioacumulado"  class="form-inline" autocomplete="Off">
   <div class="table-responsive">
     <table class="table table-bordered table-condensed">
       <thead>
         <tr>
           <th >SUB OT</th>
+          <th>COSTO UNITARIO ACUMULADO</th>
           <th >CÓDIGO</th>
-          <th >DESCRIPCIÓN</th>
           <th >CANTIDAD</th>
           <th>ENTREGA</th>
           <th >SALDO</th>
@@ -120,79 +107,45 @@ $fechainicio =  date_format(date_create($cencosot->consulta($ot,'OF_FECHINI')), 
       </thead>
       <tbody>
       <?php foreach ($cencosot->lista_subot($ot) as $key => $value): ?>
+      <?php if (($value['OT'].'-'.$value['SUB_OT'])==$subot): ?>
       <tr>
-      <input type="hidden" name="id[]" value="<?php echo $value['ID']; ?>">
-      <td><input type="text"  style="text-align: center;" name="subot[]" value="<?php echo $value['SUB_OT']; ?>"  min="0" required></td>
+      <td><input type="text"  style="text-align: center;" name="subot" value="<?php echo $value['OT'].'-'.$value['SUB_OT']; ?>"  min="0" readonly></td>
+      <td><input type="number" min="0" style="text-align: center;" step="any" name="cantidad" value="<?php echo round($value['COSTO_UNITARIO'],2); ?>"  required></td>
       <td><input type="text"  value="<?php echo $value['CODIGO']; ?>"  readonly></td>
-      <td><input type="text"  value="<?php echo $value['ADESCRI']; ?>" readonly></td>
-      <td><input type="number" min="0" style="text-align: center;" step="any" name="cantidad[]" value="<?php echo round($value['CANTIDAD'],2); ?>"  required></td>
-      <td><input type="number" min="0" style="text-align: center;" step="any" name="entrega[]" value="<?php echo round($value['ENTREGA'],2); ?>"  required></td>
-      <td><input type="number" min="0" style="text-align: center;" step="any" name="saldo[]" value="<?php echo round($value['SALDO'],2); ?>"  required></td>
-      <td><input type="date" name="fechainicio[]" value="<?php echo date_format(date_create($value['FECHA_INICIO']), 'Y-m-d'); ?>"  ></td>
-      <td><input type="date" name="fechafin[]" value="<?php echo date_format(date_create($value['FECHA_FIN']), 'Y-m-d'); ?>"  ></td>
-      <td><input type="text" style="text-align: center;" name="notaingreso[]" value="<?php echo $value['NOTA_INGRESO']; ?>"  ></td>
+      <td><input type="number" min="0" style="text-align: center;"   value="<?php echo round($value['CANTIDAD'],2); ?>"  readonly></td>
+      <td><input type="number" min="0" style="text-align: center;"  value="<?php echo round($value['ENTREGA'],2); ?>"  readonly></td>
+      <td><input type="number" min="0" style="text-align: center;"  value="<?php echo round($value['SALDO'],2); ?>"  readonly></td>
+      <td><input type="date"  value="<?php echo date_format(date_create($value['FECHA_INICIO']), 'Y-m-d'); ?>"  readonly></td>
+      <td><input type="date"  value="<?php echo date_format(date_create($value['FECHA_FIN']), 'Y-m-d'); ?>"  readonly></td>
+      <td><input type="text" style="text-align: center;" value="<?php echo $value['NOTA_INGRESO']; ?>"  readonly></td>
       <td>
-      <select name="tipo_entrega[]"  required="">
-      <option value="<?php echo utf8_encode($value['TIPO_ENTREGA']); ?>"><?php echo utf8_encode($value['TIPO_ENTREGA']); ?></option>
-      <option value="ENTREGA PARCIAL">ENTREGA PARCIAL</option>
-      <option value="ENTREGA TOTAL">ENTREGA TOTAL</option>
-      </select>
+      <input type="text" value="<?php echo utf8_encode($value['TIPO_ENTREGA']); ?>" readonly>
       </td>
       <td>
-      <select name="status[]"  required="">
-      <option value="<?php echo utf8_encode($value['STATUS']); ?>"><?php echo utf8_encode($value['STATUS']); ?></option>
-      <option value="ANULADO">ANULADO</option>
-      <option value="LIQUIDADO">LIQUIDADO</option>
-      <option value="PROCESO">PROCESO</option>
-      </select>
+      <input type="text" value="<?php echo utf8_encode($value['STATUS']); ?>" readonly>
       </td>
       <td>
-    <select name="tipo_ot[]"  required="">
-    <option value="<?php echo utf8_encode($value['TIPO_OT']); ?>"><?php echo utf8_encode($value['TIPO_OT']); ?></option>
-    <option value="SERVICIO">SERVICIO</option>
-    <option value="ENSAMBLE">ENSAMBLE</option>
-    <option value="FABRICACIÓN">FABRICACIÓN</option>
-    <option value="GARANTIA">GARANTIA</option>
-    <option value="TRABAJO INTERNO">TRABAJO INTERNO</option>
-    </select>
+      <input type="text" value="<?php echo utf8_encode($value['TIPO_OT']); ?>" readonly>
       </td>
     <td>
-    <select name="tipo_proceso[]"  required="">
-    <option value="<?php echo utf8_encode($value['TIPO_PROCESO']); ?>"><?php echo utf8_encode($value['TIPO_PROCESO']); ?></option>
-    <option value="FABRICACIÓN PARCIAL">FABRICACIÓN PARCIAL</option>
-    <option value="MECANIZADO PARCIAL">MECANIZADO PARCIAL</option>
-    <option value="MECANIZADO TOTAL">MECANIZADO TOTAL</option>
-    </select>
+    <input type="text" value="<?php echo utf8_encode($value['TIPO_PROCESO']); ?>" readonly>
     </td>
       </tr>
+      <?php else: ?>
+       <!-- No coincide con la sub ot -->
+      <?php endif ?>
       <?php endforeach ?>
       </tbody>
     </table>
   </div>
 
-
+<div class="form-group">
+<button type="submit" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-refresh"></i>  Actualizar</button>
+</div>
   </form>
-
-<p></p>
-
-<div class="row">
-<div class="col-md-12">
-<form  id="costounitarioacumulado"  class="form-inline" autocomplete="Off">
-  <input type="hidden" name="subot" value="<?php echo $subot; ?>">
-  <input type="number" min="0"  step="any" name="cantidad" value="<?php echo $vua; ?>" class="form-control" required="" >
-  <button type="submit" class="btn btn-primary">Agregar Costo Unitario Acumulado</button>
-</form>
-</div>
-</div>
-
-
 <?php else: ?>
-  <p></p>
- <p class="alert alert-warning">No hay sub ot registradas.</p>
+ <p class="alert alert-warning">No se ha registrado SUBOTs.</p> 
 <?php endif ?>
-
-
-<?php include('../../../templates/modal/gestion-ot/eliminar.php'); ?>
 
  <script>
 
@@ -213,14 +166,10 @@ $fechainicio =  date_format(date_create($cencosot->consulta($ot,'OF_FECHINI')), 
           $('#editModal').modal('hide'); //ocultar modal
           $('body').removeClass('modal-open');
           $('.modal-backdrop').remove();
-          loadTabla(1);
+          //loadTabla(1);
           }
       });
   });
 
 
 </script>
-
- <?php else: ?>
- <p class="alert alert-warning">Aún no se ha registrado ingresos</p>
- <?php endif ?>

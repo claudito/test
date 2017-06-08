@@ -4,7 +4,7 @@ include('../../autoload.php');
 
 $area =  $_POST['elegido'];
 
-$usuarios = new Usuarios('?','?','?');
+$usuarios = new Usuarios('?','?','?','?');
 
  ?>
 

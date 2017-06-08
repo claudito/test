@@ -35,8 +35,8 @@
       if ($value_lista_sub_menu['ESTADO']==1) 
       {
 
-         #$ruta = RUTA.$value_lista_sub_menu['URL'].'.php';
-         $ruta = RUTA.str_replace('/', '\\', $value_lista_sub_menu['URL']).'.php';
+         $ruta = RUTA.$value_lista_sub_menu['URL'].'.php';
+         #$ruta = RUTA.str_replace('/', '\\', $value_lista_sub_menu['URL']).'.php';
          if (is_readable($ruta)) 
          {
            echo '<li><a href="'.PATH.$value_lista_sub_menu['URL'].'">'.$value_lista_sub_menu['NOMBRE'].'</a></li>';

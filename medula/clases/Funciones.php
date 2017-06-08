@@ -58,21 +58,23 @@ function validar_xss($cadena)
 }
 
 
-function first_day_mes()
+function first_day_mes($fecha) 
 {
  
- $my_date = new DateTime();
- $my_date->modify('first day');
+ $my_date = new DateTime($fecha);
+ #$my_date->modify('first day');
+ $my_date->modify('first day of this month');
  return $my_date->format('Y-m-d');
 
 }
 
 
-function last_day_mes()
+function last_day_mes($fecha)
 {
 
- $my_date = new DateTime();
- $my_date->modify('last day');
+ $my_date = new DateTime($fecha);
+ #$my_date->modify('last day');
+ $my_date->modify('last day of this month');
  return $my_date->format('Y-m-d');
 	
 }
@@ -93,3 +95,4 @@ return $newdate->format('Y-m-d');
 
 
  ?>
+

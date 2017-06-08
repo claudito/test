@@ -33,7 +33,6 @@ $cencosot = new Cencosot();
       <th>TIPO OT</th>
       <th>TIPO PROCESO</th>
       <th>ESTADO</th>
-      <th>COSTO UNITARIO ACUMULADO</th>
     </tr>
   </thead>
   <tbody>
@@ -44,7 +43,7 @@ $cencosot = new Cencosot();
   ?>
   <tr>
   <td >
-  <a data-ot="<?php echo $value['OF_COD'];?>" data-subot="<?php echo utf8_encode($value['SUB_OT']); ?>" data-vua="<?php echo round($value['COSTO_UNITARIO'],2); ?>" class="btn-edit">
+  <a data-ot="<?php echo $value['OF_COD'];?>" data-subot="<?php echo utf8_encode($value['SUB_OT']); ?>"  class="btn-edit">
   <?php echo utf8_encode($value['OF_COD']); ?>
   </a>
   </td>
@@ -64,7 +63,6 @@ $cencosot = new Cencosot();
   <td><?php echo utf8_encode($value['TIPO_OT']); ?></td>
   <td><?php echo utf8_encode($value['TIPO_PROCESO']); ?></td>
   <td><?php echo utf8_encode($value['OF_ESTADO']); ?></td>
-  <td><?php echo round($value['COSTO_UNITARIO'],2); ?></td>
 </tr>
   <?php
 
@@ -85,8 +83,7 @@ $cencosot = new Cencosot();
     $(".btn-edit").click(function(){
       ot    = $(this).data("ot");
       subot = $(this).data("subot");
-      vua   = $(this).data("vua");
-      $.get("../templates/modal/gestion-ot-costeo/agregar.php","ot="+ot+"&subot="+subot+"&vua="+vua,function(data){
+      $.get("../templates/modal/gestion-ot-costeo/agregar.php","ot="+ot+"&subot="+subot,function(data){
         $("#form-edit").html(data);
       });
       $('#editModal').modal('show');

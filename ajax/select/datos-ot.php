@@ -11,7 +11,7 @@ $ot  = new Ot();
 
 <div class="col-md-2">
 
- <input type="number" step="any"  name="cantidad" class="form-control" required="" max="<?php echo round($ot->consulta($id,'OF_ARTCANT'),2); ?>" placeholder="Cant: <?php echo round($ot->consulta($id,'OF_ARTCANT'),2); ?>" required>
+ <input type="number" step="any"  name="cantidad" class="form-control" min="0" required="" max="<?php echo round($ot->consulta($id,'OF_ARTCANT'),2); ?>" placeholder="Cant: <?php echo round($ot->consulta($id,'OF_ARTCANT'),2); ?>" required>
  
 </div>
 

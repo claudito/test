@@ -4,20 +4,15 @@ include('../../../autoload.php');
 $ot   = $_GET['ot'];
 
 $cencosot    = new Cencosot();
-
 $cantidadot  =  $cencosot->consulta($ot,'CANT');
-$fechainicio =  date_format(date_create($cencosot->consulta($ot,'OF_FECHINI')), 'Y-m-d');
+$fechainicio =  date_format(date_create($cencosot->consulta($ot,'OF_FECHINI')), FECHA);
 
- ?>
+?>
 
+<h4 >OT DE <?php echo $cencosot->tipo_ot(substr($ot, 0,1)) ?>: <?php echo $ot; ?></h4>
 
- <?php if (count($cencosot->lista_ni($ot)) > 0): ?>
-<div class="modal-header">
-<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-<h4 class="modal-title">OT DE <?php echo $cencosot->tipo_ot(substr($ot, 0,1)) ?>: <?php echo $ot; ?></h4>
-</div>
-
-<form  role="form" id="agregar-ni" >
+<?php if (count($cencosot->lista_ni($ot)) > 0): ?>
+ <form  role="form" id="agregar-ni" >
 
  <input type="hidden" name="codigo" value="<?php echo $cencosot->consulta($ot,'CODIGO') ?>">
  <input type="hidden" name="ot" value="<?php echo $cencosot->consulta($ot,'OF_COD') ?>">
@@ -97,13 +92,14 @@ $fechainicio =  date_format(date_create($cencosot->consulta($ot,'OF_FECHINI')), 
 </div>
 
 
-
 </form>
+<?php else: ?>
+ <p class="alert alert-warning">No se ha Registrado Ingresos.</p>
+<?php endif ?>
 
 
 <?php if (count($cencosot->lista_subot($ot)) > 0): ?>
-  <p></p> 
- <form role="form" method="post" id="agregar">
+   <form role="form" method="post" id="agregar">
   <div class="table-responsive">
     <table class="table table-bordered table-condensed">
       <thead>
@@ -182,10 +178,13 @@ $fechainicio =  date_format(date_create($cencosot->consulta($ot,'OF_FECHINI')), 
 
   <button type="submit" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-refresh"></i>  Actualizar lista&nbsp;</button>
   </form>
+<?php else: ?>
+ <p class="alert alert-warning">No hay SUBOTs registradas.</p> 
+<?php endif ?>
 
 <p></p>
 
- <form role="form" id="actualizar" >
+<form role="form" id="actualizar" >
 
  <input type="hidden" name="codigo" value="<?php echo $cencosot->consulta($ot,'CODIGO') ?>">
  <input type="hidden" name="ot" value="<?php echo $cencosot->consulta($ot,'OF_COD') ?>">
@@ -330,16 +329,9 @@ $fechainicio =  date_format(date_create($cencosot->consulta($ot,'OF_FECHINI')), 
 
  </form>
 
-
-<?php else: ?>
-  <p></p>
- <p class="alert alert-warning">No hay sub ot registradas.</p>
-<?php endif ?>
-
-
 <?php include('../../../templates/modal/gestion-ot/eliminar.php'); ?>
 
- <script>
+<script>
 
  $( "#agregar" ).submit(function( event ) {
 var parametros = $(this).serialize();
@@ -438,7 +430,3 @@ $( "#eliminarDatos" ).submit(function( event ) {
       event.preventDefault();
     });
 </script>
-
- <?php else: ?>
- <p class="alert alert-warning">Aún no se ha registrado ingresos</p>
- <?php endif ?>
